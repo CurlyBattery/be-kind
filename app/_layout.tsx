@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import Header from "@/components/header";
-import {View} from "react-native";
+import {StyleSheet, View} from "react-native";
 import {Suspense} from "react";
 
 import Fallback from "@/components/fallback";
@@ -10,7 +10,7 @@ import AuthProvider from "@/components/auth-context";
 
 export default function RootLayout() {
   return (
-      <View>
+      <View style={styles.container}>
           <Suspense fallback={<Fallback/>}>
               <SQLiteProvider
                 databaseName={'drugstore.db'}
@@ -31,6 +31,11 @@ export default function RootLayout() {
               </SQLiteProvider>
           </Suspense>
       </View>
-
   );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#DCDAD7",
+    }
+})
