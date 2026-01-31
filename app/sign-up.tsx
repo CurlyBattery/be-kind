@@ -4,7 +4,7 @@ import {
     Text,
     TextInput,
     Pressable,
-    TouchableWithoutFeedback, Keyboard
+    TouchableWithoutFeedback, Keyboard, Platform, ScrollView, KeyboardAvoidingView
 } from "react-native";
 import {useSQLiteContext} from "expo-sqlite";
 import {useRouter} from "expo-router";
@@ -49,59 +49,76 @@ const SignUpScreen = () => {
     };
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <View>
-                <Text>Регистрация</Text>
-
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+            <ScrollView
+                keyboardShouldPersistTaps={'handled'}
+                style={styles.scrollContainer}
+            >
                 <View>
-                    <View>
-                        <Text>Имя пользователя</Text>
-                        <TextInput
-                            value={name}
-                            onChangeText={setName}
-                            placeholder={'Введите имя...'}
-                        />
-                    </View>
+                    <Text>Регистрация</Text>
 
                     <View>
-                        <Text>Майл</Text>
-                        <TextInput
-                            value={email}
-                            onChangeText={setEmail}
-                            placeholder={'Введите майл...'}
-                        />
-                    </View>
+                        <View>
+                            <Text>Имя пользователя</Text>
+                            <TextInput
+                                value={name}
+                                onChangeText={setName}
+                                placeholder={'Введите имя...'}
+                            />
+                        </View>
 
-                    <View>
-                        <Text>Пароль</Text>
-                        <TextInput
-                            value={password}
-                            onChangeText={setPassword}
-                            placeholder={'Введите пароль...'}
-                            secureTextEntry
-                        />
-                    </View>
+                        <View>
+                            <Text>Майл</Text>
+                            <TextInput
+                                value={email}
+                                onChangeText={setEmail}
+                                placeholder={'Введите майл...'}
+                            />
+                        </View>
 
-                    <View>
-                        <Text>Роль</Text>
-                        <Picker
-                            selectedValue={selectedRole}
-                            onValueChange={setSelectedRole}
+                        <View>
+                            <Text>Пароль</Text>
+                            <TextInput
+                                value={password}
+                                onChangeText={setPassword}
+                                placeholder={'Введите пароль...'}
+                                secureTextEntry
+                            />
+                        </View>
+
+                        <View>
+                            <Text>Роль</Text>
+                            <Picker
+                                selectedValue={selectedRole}
+                                onValueChange={setSelectedRole}
+                            >
+                                <Picker.Item label={'Нуждающий'} value={UserRole.SEEKER}/>
+                                <Picker.Item label={'Помогайющий'} value={UserRole.HELPER}/>
+                            </Picker>
+                        </View>
+
+                        <Pressable
+                            onPress={handleRegister}
                         >
-                            <Picker.Item label={'Нуждающий'} value={UserRole.SEEKER}/>
-                            <Picker.Item label={'Помогайющий'} value={UserRole.HELPER}/>
-                        </Picker>
+                            <Text>Зарегистрироваться</Text>
+                        </Pressable>
                     </View>
-
-                    <Pressable
-                        onPress={handleRegister}
-                    >
-                        <Text>Зарегистрироваться</Text>
-                    </Pressable>
                 </View>
-            </View>
-        </TouchableWithoutFeedback>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 };
+
+const styles = {
+    container: {
+        flex: 1,
+    },
+    scrollContainer: {
+        flexGrow: 1,
+    }
+}
 
 export default SignUpScreen;

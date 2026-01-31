@@ -1,7 +1,7 @@
 import {Tabs} from "expo-router";
 import Feather from '@expo/vector-icons/Feather';
 import AntDesign from '@expo/vector-icons/AntDesign';
-
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 import Header from "@/components/header";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
@@ -26,10 +26,17 @@ const TabLayout = () => {
                 }}
             />
             <Tabs.Screen
-                name={'donations'}
+                name={'help-requests'}
                 options={{
                     title: 'Пожертвования',
                     tabBarIcon: () => <MaterialCommunityIcons name="food-apple-outline" size={24} color="black" />,
+                }}
+            />
+            <Tabs.Screen
+                name={'donations'}
+                options={{
+                    title: 'Донаты',
+                    tabBarIcon: () => <MaterialIcons name="money" size={24} color="black" />,
                 }}
             />
             <Tabs.Screen

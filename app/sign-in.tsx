@@ -7,7 +7,7 @@ import {
     Pressable,
     TextInput,
     Keyboard,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback, ScrollView, Platform
 } from "react-native";
 import {useAuth} from "@/components/auth-context";
 import {useRouter} from "expo-router";
@@ -47,37 +47,54 @@ const SignInScreen = () => {
     };
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <View>
-                <Text>Вход</Text>
-
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+            <ScrollView
+                keyboardShouldPersistTaps={'handled'}
+                style={styles.scrollContainer}
+            >
                 <View>
-                    <Text>Майл</Text>
-                    <TextInput
-                        value={email}
-                        onChangeText={setEmail}
-                        placeholder={'Введите майл...'}
-                    />
-                </View>
+                    <Text>Вход</Text>
 
-                <View>
-                    <Text>Пароль</Text>
-                    <TextInput
-                        value={password}
-                        onChangeText={setPassword}
-                        placeholder={'Введите пароль...'}
-                        secureTextEntry
-                    />
-                </View>
+                    <View>
+                        <Text>Майл</Text>
+                        <TextInput
+                            value={email}
+                            onChangeText={setEmail}
+                            placeholder={'Введите майл...'}
+                        />
+                    </View>
 
-                <Pressable
-                    onPress={handleLogin}
-                >
-                    <Text>Войти</Text>
-                </Pressable>
-            </View>
-        </TouchableWithoutFeedback>
+                    <View>
+                        <Text>Пароль</Text>
+                        <TextInput
+                            value={password}
+                            onChangeText={setPassword}
+                            placeholder={'Введите пароль...'}
+                            secureTextEntry
+                        />
+                    </View>
+
+                    <Pressable
+                        onPress={handleLogin}
+                    >
+                        <Text>Войти</Text>
+                    </Pressable>
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 };
+
+const styles = {
+    container: {
+        flex: 1,
+    },
+    scrollContainer: {
+        flexGrow: 1,
+    }
+}
 
 export default SignInScreen;

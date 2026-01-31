@@ -15,7 +15,7 @@ const Header = () => {
     return (
         <View style={styles.container}>
             <Link href={'/'}>
-                <Text>Домой</Text>
+                <Text>BeKind</Text>
             </Link>
 
             <View style={styles.listContainer}>

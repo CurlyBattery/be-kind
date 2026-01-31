@@ -1,7 +1,7 @@
 import {SQLiteDatabase} from "expo-sqlite";
 
 export async function migrateDbIfNeeded(db: SQLiteDatabase) {
-    const DATABASE_VERSION = 2;
+    const DATABASE_VERSION = 3;
 
     const result = await db.getFirstAsync<{ user_version: number }>(
         'PRAGMA user_version'
@@ -31,6 +31,21 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
             ALTER TABLE users ADD COLUMN password TEXT NOT NULL;
         `);
         currentDbVersion = 2;
+    }
+
+    if (currentDbVersion === 2) {
+        await db.execAsync(`
+            CREATE TABLE IF NOT EXISTS help_requests (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                title TEXT NOT NULL,
+                description TEXT NOT NULL,
+                status TEXT NOT NULL CHECK(status IN ('ACTIVE', 'HELPED')) DEFAULT 'ACTIVE',
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+                );
+        `);
+        currentDbVersion = 3;
     }
 
     await db.execAsync(`PRAGMA user_version = ${currentDbVersion}`);
