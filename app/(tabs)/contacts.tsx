@@ -4,7 +4,12 @@ import {View, Text} from "react-native";
 const ContactsScreen = () => {
     return (
         <View>
-            <Text>Contacts</Text>
+            <Text>Контакты</Text>
+
+            <View>
+                <Text>Номер - 89083229683</Text>
+                <Text>Email - cosinusgradusov90@gmail.com</Text>
+            </View>
         </View>
     );
 };

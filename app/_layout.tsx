@@ -7,6 +7,7 @@ import Fallback from "@/components/fallback";
 import {SQLiteProvider} from "expo-sqlite";
 import {migrateDbIfNeeded} from "@/database";
 import AuthProvider from "@/components/auth-context";
+import {SafeAreaProvider} from "react-native-safe-area-context";
 
 export default function RootLayout() {
   return (
@@ -17,17 +18,18 @@ export default function RootLayout() {
                 onInit={migrateDbIfNeeded}
                 useSuspense
               >
-                  <AuthProvider>
-                      <Stack
-                          screenOptions={{
-                              headerShown: true,
-                              header: () => <Header />,
-                          }}
-                      >
-                          <Stack.Screen name={'(tabs)'} options={{ headerShown: false }}/>
-                      </Stack>
-                  </AuthProvider>
-
+                  <SafeAreaProvider>
+                      <AuthProvider>
+                          <Stack
+                              screenOptions={{
+                                  headerShown: true,
+                                  header: () => <Header />,
+                              }}
+                          >
+                              <Stack.Screen name={'(tabs)'} options={{ headerShown: false }}/>
+                          </Stack>
+                      </AuthProvider>
+                  </SafeAreaProvider>
               </SQLiteProvider>
           </Suspense>
       </View>
@@ -36,6 +38,7 @@ export default function RootLayout() {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         backgroundColor: "#DCDAD7",
     }
 })

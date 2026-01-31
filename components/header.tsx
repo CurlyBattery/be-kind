@@ -9,7 +9,7 @@ const Header = () => {
 
     const handleLogout = async () => {
         await logout();
-        router.push('/');
+        router.replace('/');
     };
 
     return (
@@ -44,7 +44,6 @@ const Header = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 30,
