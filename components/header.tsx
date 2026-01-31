@@ -1,15 +1,42 @@
 import React from 'react';
-import {View, Text, StyleSheet} from "react-native";
-import {Link} from 'expo-router';
+import {View, Text, StyleSheet, Pressable} from "react-native";
+import {Link, useRouter} from 'expo-router';
+import {useAuth} from "@/components/auth-context";
 
 const Header = () => {
+    const {user, logout} = useAuth();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        await logout();
+        router.push('/');
+    };
+
     return (
         <View style={styles.container}>
-            <Text>Header</Text>
+            <Link href={'/'}>
+                <Text>Домой</Text>
+            </Link>
 
             <View style={styles.listContainer}>
-                <Link href={'/sign-in'}>Вход</Link>
-                <Link href={'/sign-up'}>Регистрация</Link>
+                {user ? (
+                    <>
+                        <Pressable
+                            onPress={handleLogout}
+                        >
+                            <Text>Выход</Text>
+                        </Pressable>
+                    </>
+                ) : (
+                    <>
+                        <Link href={'/sign-in'}>
+                            <Text>Вход</Text>
+                        </Link>
+                        <Link href={'/sign-up'}>
+                            <Text>Регистрация</Text>
+                        </Link>
+                    </>
+                )}
             </View>
         </View>
     );
