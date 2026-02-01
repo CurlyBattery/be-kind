@@ -15,7 +15,8 @@ const TabLayout = () => {
                 tabBarStyle: {
                     backgroundColor: 'rgba(220,218,215,0.5)',
                     borderTopWidth: 1,
-                }
+                },
+                tabBarActiveTintColor: 'red',
             }}
         >
             <Tabs.Screen
