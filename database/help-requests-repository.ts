@@ -25,6 +25,16 @@ class HelpRequestRepository {
         return result;
     }
 
+    getHelpRequestById(db: SQLiteDatabase, helpRequestId: number): Promise<IHelpRequest | null> {
+        const result = db.getFirstAsync<IHelpRequest>(
+            `SELECT *
+             FROM help_requests
+             WHERE helpRequestId = ?;`,
+            [helpRequestId]
+        );
+        return result;
+    }
+
     getAllHelpRequestsByUserId(db: SQLiteDatabase, userId: number): Promise<IHelpRequest[]> {
         const result = db.getAllAsync<IHelpRequest>(
             `SELECT *

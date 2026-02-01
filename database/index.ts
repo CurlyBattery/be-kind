@@ -1,7 +1,9 @@
 import {SQLiteDatabase} from "expo-sqlite";
 
 export async function migrateDbIfNeeded(db: SQLiteDatabase) {
-    const DATABASE_VERSION = 3;
+    const DATABASE_VERSION = 4;
+
+    await db.execAsync('PRAGMA foreign_keys=ON;');
 
     const result = await db.getFirstAsync<{ user_version: number }>(
         'PRAGMA user_version'
@@ -15,6 +17,8 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
     if (currentDbVersion === 0) {
         await db.execAsync(`
             PRAGMA journal_mode='wal';
+            PRAGMA foreign_keys=ON;
+            
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
@@ -46,6 +50,22 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
                 );
         `);
         currentDbVersion = 3;
+    }
+
+    if (currentDbVersion === 3) {
+        await db.execAsync(`
+            CREATE TABLE IF NOT EXISTS donations (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                help_request_id INTEGER NOT NULL,
+                helper_user_id INTEGER NOT NULL,
+                seeker_user_id INTEGER NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (help_request_id) REFERENCES help_requests(id) ON DELETE CASCADE,
+                FOREIGN KEY (helper_user_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (seeker_user_id) REFERENCES users(id) ON DELETE CASCADE
+                );
+        `);
+        currentDbVersion = 4;
     }
 
     await db.execAsync(`PRAGMA user_version = ${currentDbVersion}`);

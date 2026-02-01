@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, Pressable, ScrollView, Text} from "react-native";
+import {FlatList, Pressable, ScrollView, Text, View} from "react-native";
+import {useSQLiteContext} from "expo-sqlite";
+import {useFocusEffect} from "expo-router";
 
 import {IHelpRequest} from "@/types/help-request";
 import {helpRequestRepository} from "@/database/help-requests-repository";
 import {useAuth} from "@/components/auth-context";
-import {useSQLiteContext} from "expo-sqlite";
 import HelpRequestItem from "@/components/help-request-item";
 import {UserRole} from "@/types/user";
 import CreateHelpRequestModal from "@/components/create-help-request-modal";
@@ -16,9 +17,9 @@ const HelpRequestsList = () => {
      const [helpRequests, setHelpRequests] = useState<IHelpRequest[]>([]);
     const [visible, setVisible] = useState(false);
 
-    useEffect(() => {
+    useFocusEffect(() => {
         loadHelpRequests();
-    }, []);
+    });
 
     const showCreateHelpRequestModal = () => {
         setVisible(true);
@@ -33,7 +34,7 @@ const HelpRequestsList = () => {
     }
 
     return (
-        <ScrollView>
+        <View>
             <Text>{user?.role === UserRole.SEEKER ? 'Тобой создано' : 'Пожертвования'}</Text>
 
             <FlatList
@@ -50,10 +51,12 @@ const HelpRequestsList = () => {
                         <Text>Создать</Text>
                     </Pressable>
 
-                    (visible && <CreateHelpRequestModal visible={visible} setVisible={setVisible} onSave={loadHelpRequests} />)
+                    {
+                        (visible && <CreateHelpRequestModal visible={visible} setVisible={setVisible} onSave={loadHelpRequests} />)
+                    }
                 </>
             )}
-        </ScrollView>
+        </View>
     )
 };
 
