@@ -1,15 +1,14 @@
 import React, {useState} from 'react';
-import {View, Text, Pressable} from "react-native";
+import {View, Text, Pressable, ScrollView} from "react-native";
 
 import HelpRequestsList from "@/components/help-requests-list";
 import CreateHelpRequestModal from "@/components/create-help-request-modal";
 
 const HelpRequestsScreen = () => {
     return (
-        <View>
-
+        <ScrollView>
             <HelpRequestsList />
-        </View>
+        </ScrollView>
     );
 };
 
