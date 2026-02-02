@@ -34,7 +34,7 @@ const Header = () => {
                                 <View>
                                     <Text style={styles.userName}>{user.name}</Text>
                                     <Text style={styles.userRole}>
-                                        {user.role === 'HELPER' ? '❤️ Помогающий' : '🙏 Нуждающийся'}
+                                        {user.role === 'HELPER' ? 'Помогающий' : 'Нуждающийся'}
                                     </Text>
                                 </View>
                             </View>

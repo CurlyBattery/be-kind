@@ -48,11 +48,6 @@ const HelpRequestsList = () => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.headerContent}>
-                    <MaterialIcons
-                        name={isSeeker ? "volunteer-activism" : "list"}
-                        size={28}
-                        color="#c3425a"
-                    />
                     <Text style={styles.headerTitle}>
                         {isSeeker ? 'Мои заявки' : 'Активные заявки'}
                     </Text>
@@ -136,7 +131,6 @@ const styles = StyleSheet.create({
     headerSubtitle: {
         fontSize: 14,
         color: '#666',
-        marginLeft: 40,
     },
     listContent: {
         padding: 16,
